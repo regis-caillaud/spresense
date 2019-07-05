@@ -1,5 +1,5 @@
 /****************************************************************************
- * configs/corvo/scripts/ramconfig.ld
+ * bsp/scripts/ramconfig.ld
  *
  *   Copyright (C) 2014 Gregory Nutt. All rights reserved.
  *   Author: Gregory Nutt <gnutt@nuttx.org>
@@ -92,6 +92,17 @@ SECTIONS
 
 	.bss : {			/* BSS				*/
 		_sbss = ABSOLUTE(.);
+		/* MicroEJ symbol for partial link */
+		_smicroej = ABSOLUTE(.);
+		*(ICETEA_HEAP)
+		. = ALIGN(4);
+		*(_java_heap)
+		. = ALIGN(4);
+		*(_java_immortals)
+		. = ALIGN(4);
+		_emicroej = ABSOLUTE(.);
+		/* End of MicroEJ symbol for partial link */
+
 		*(.bss .bss.*)
 		*(.gnu.linkonce.b.*)
 		*(COMMON)
